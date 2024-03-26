@@ -2,3 +2,21 @@ extends layout
 
 block content
   h1 Search Results - Books
+
+  -
+    let results = [
+      { title: 'It starts with us', author: 'Collen Hoover', year: 2022 },
+      { title: 'Meditations', author: 'Marcus Aurelius', year: 1559 },
+      { title: 'History of the humankind', author: 'Yuval Noah', year: 2011 }
+    ]
+
+  .container-fluid
+    .row
+      each item in results
+        .col-sm-2
+          .search-result
+            h6 title: #{item.title}
+            h6 author: #{item.author}
+            h6 year: #{item.year}
+
+  a(href="/index") Back to index page 
