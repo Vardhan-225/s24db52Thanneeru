@@ -12,11 +12,16 @@ block content
 
   .container-fluid
     .row
-      each item in results
-        .col-sm-2
+      each item, index in results
+        .col-sm-2(onclick=`buy(${index})`)
           .search-result
             h6 title: #{item.title}
             h6 author: #{item.author}
             h6 year: #{item.year}
 
   a(href="/index") Back to index page 
+
+  script.
+    function buy(index) {
+      alert(`You purchased item ${index + 1}`);
+    }
