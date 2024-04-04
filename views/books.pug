@@ -3,25 +3,18 @@ extends layout
 block content
   h1 Search Results - Books
 
-  -
-    let results = [
-      { title: 'It starts with us', author: 'Collen Hoover', year: 2022 },
-      { title: 'Meditations', author: 'Marcus Aurelius', year: 1559 },
-      { title: 'History of the humankind', author: 'Yuval Noah', year: 2011 }
-    ]
-
   .container-fluid
     .row
-      each item, index in results
-        .col-sm-2(onclick=`buy(${index})`)
+      each book in results
+        .col-sm-2(onclick=`buy(${book._id})`)
           .search-result
-            h6 title: #{item.title}
-            h6 author: #{item.author}
-            h6 year: #{item.year}
+            h6 Title: #{book.title}
+            h6 Author: #{book.author}
+            h6 Year: #{book.year}
 
   a(href="/index") Back to index page 
 
   script.
-    function buy(index) {
-      alert(`You purchased item ${index + 1}`);
+    function buy(id) {
+      alert(`You purchased item ${id}`);
     }
