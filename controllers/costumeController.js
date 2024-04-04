@@ -1,8 +1,13 @@
 const Costume = require('../models/costume');
 
 // Display list of all Costumes
-exports.costume_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume list');
+exports.costume_list = async function(req, res) {
+    try {
+        const costumes = await Costume.find();
+        res.send(costumes);
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
 };
 
 // Display detail page for a specific Costume
