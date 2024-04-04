@@ -1,5 +1,5 @@
 require('dotenv').config(); // Load environment variables from .env file
-
+const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -8,12 +8,12 @@ const mongoose = require('mongoose');
 
 // Import your resource router
 const resourceRouter = require('./routes/resource');
+const booksRouter = require('./routes/books'); // Add this line to import the book router
 
 const app = express();
 
 // MongoDB connection setup
 const connectionString = process.env.MONGO_CON;
-
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -35,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Associate the resource router with the /resource endpoint
 app.use('/resource', resourceRouter);
+app.use('/books', booksRouter); // Use the books router for handling books-related routes
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
