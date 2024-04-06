@@ -6,19 +6,11 @@ block content
   .container-fluid
     .row
       each book in results
-        .col-sm-4
-          .card.mb-3
-            .card-body
-              h5.card-title Title: #{book.title}
-              h6.card-subtitle.mb-2.text-muted Author: #{book.author}
-              p.card-text Year: #{book.year}
-              // Add buttons for inspecting, updating, or deleting each book
-              a.btn.btn-primary(href=`/books/${book._id}`) Inspect
-              a.btn.btn-warning(href=`/books/update/${book._id}`) Update
-              a.btn.btn-danger(href=`/books/delete/${book._id}`) Delete
-
- 
-    a.btn.btn-success(href="/books/new") Add New Book
+        .col-sm-2(onclick=`buy(${book._id})`)
+          .search-result
+            h6 Title: #{book.title}
+            h6 Author: #{book.author}
+            h6 Year: #{book.year}
 
   a(href="/index") Back to index page 
 
