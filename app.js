@@ -3,8 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var books = require("./models/books");
-
+var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var booksRouter = require('./routes/books');
@@ -23,8 +22,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/books', booksRouter); 
-app.use('/resource', resourceRouter); 
+app.use('/books', booksRouter);
+app.use('/resource', resourceRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -41,46 +41,36 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
-
+// MongoDB connection
 require('dotenv').config();
-const connectionString = process.env.MONGO_CON
-mongoose = require('mongoose');
-mongoose.connect(connectionString);
-//Get the default connection
-var db = mongoose.connection;
-//Bind connection to error event
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once("open", function(){
-console.log("Connection to DB succeeded")});
+const connectionString = process.env.MONGO_CON;
+mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
-// We can seed the collection if needed on
+// MongoDB model and seeding
+const Book = require("./models/books");
 
-async function recreateDB(){
-// Delete everything
-await books.deleteMany();
+async function recreateDB() {
+  try {
+    await Book.deleteMany();
 
-let instance1 = new books({title: 'It starts with us', author: 'Collen Hoover', year: 2022});
-instance1.save().then(doc=>{
-console.log("First object saved")}
-).catch(err=>{
-console.error(err)
-});
+    const booksData = [
+      { title: 'It starts with us', author: 'Collen Hoover', year: 2022 },
+      { title: 'Meditations', author: 'Marcus Aurelius', year: 1559 },
+      { title: 'History of the humankind', author: 'Yuval Noah', year: 2011 }
+    ];
 
-let instance2 = new books({title: 'Meditations', author: 'Marcus Aurelius', year: 1559});
-instance2.save().then(doc=>{
-console.log("Second object saved")}
-).catch(err=>{
-console.error(err)
-});
-
-
-let instance3 = new books({title: 'History of the humankind', author: 'Yuval Noah', year: 2011});
-instance3.save().then(doc=>{
-console.log("Third object saved")}
-).catch(err=>{
-console.error(err)
-});
+    await Book.insertMany(booksData);
+    console.log("Books collection seeded successfully");
+  } catch (error) {
+    console.error("Error seeding books collection:", error);
+  }
 }
+
 let reseed = true;
-if (reseed) {recreateDB();}
+if (reseed) {
+  recreateDB();
+}
+
+module.exports = app;

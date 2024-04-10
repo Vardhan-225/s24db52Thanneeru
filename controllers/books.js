@@ -37,6 +37,7 @@ exports.books_create_post = async function(req, res) {
 
 // Handle book deletion on DELETE
 exports.books_delete = async function(req, res) {
+    console.log("Deleting book with ID: " + req.params.id);
     try {
         const deletedBook = await Book.findByIdAndDelete(req.params.id);
         if (!deletedBook) {
@@ -44,7 +45,7 @@ exports.books_delete = async function(req, res) {
         }
         res.send(deletedBook);
     } catch (err) {
-        res.status(500).send({ error: err.message });
+        res.status(500).send({ error: `Error deleting book: ${err.message}` });
     }
 };
 
@@ -59,15 +60,5 @@ exports.books_update_put = async function(req, res) {
         res.send(updatedBook);
     } catch (err) {
         res.status(500).send({ error: err.message });
-    }
-};
-
-// Render view to display all books
-exports.books_view_all_Page = async function(req, res) {
-    try {
-        const books = await Book.find();
-        res.render('books', { title: 'Books', results: books });
-    } catch (error) {
-        res.status(500).send({ error: error.message });
     }
 };
