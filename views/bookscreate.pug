@@ -4,35 +4,31 @@ block content
   h1= title
   form(id='booksForm', action="/resource/books", method="POST")
     div.form-group
-      label.booksAttr(for='Title') Title 
-      input#Title(type='text', name='Title')
+      label.booksAttr(for='title') Title
+      input#title(type='text', name='title')
     div.form-group
-      label.booksAttr(for='Author') Author
-      input#Author(type='text', name='Author')
+      label.booksAttr(for='author') books Author
+      input#author(type='text', name='author')
     div.form-group
-      label.booksAttr(for='Year') Year
-      input#Year(type='number', name='Year')
+      label.booksAttr(for='year') books Year
+      input#year(type='number', name='year')
     input(type="submit")
-  script.
-    document.getElementById('booksForm').addEventListener('submit', (event) => {
-      event.preventDefault();
-      // TODO show user that form is being submitted
-      fetch(event.target.action, {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(event.target))
-      }).then((resp) => {
-        if (!resp.ok) {
-          throw new Error('Failed to save data');
-        }
-        return resp.json();
-      }).then((body) => {
-        alert("Save succeeded");
-        // Update page content here with the new data from the server
-        // For example, you can update DOM elements with the new data
-        document.getElementById('Title').value = body.Title;
-        document.getElementById('Author').value = body.Author;
-        document.getElementById('Year').value = body.Year;
-      }).catch((error) => {
-        alert("Save failed " + error );
+    script.
+      document.forms['booksForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show the user that the form is being submitted
+        fetch(event.target.action, {
+          method: 'POST',
+          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+          return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+          alert("Save succeeded")
+          // TODO handle body
+        }).catch((error) => {
+          // TODO handle error
+          alert("Save failed " + error);
+        });
       });
-    });
+
+

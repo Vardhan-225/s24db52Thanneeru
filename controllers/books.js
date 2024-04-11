@@ -49,9 +49,9 @@ exports.books_view_all_Page = async function(req, res) {
 exports.books_create_post = async function(req, res) {
     console.log(req.body)
     let document = new books();
-    document.books_title = req.body.books_title;
-    document.books_author = req.body.books_author;
-    document.books_year = req.body.books_year;
+    document.title = req.body.title;
+    document.author = req.body.author;
+    document.year = req.body.year;
     try{
     let result = await document.save();
     res.send(result);
@@ -81,9 +81,9 @@ exports.books_detail = async function(req, res) {
         let toUpdate = await books.findById(req.params.id)
         // Do updates of properties
         if (req.body.books_title)
-            toUpdate.books_title = req.body.books_title;
-        if (req.body.books_author) toUpdate.books_author = req.body.books_author;
-        if (req.body.books_year) toUpdate.books_year = req.body.books_year;
+            toUpdate.title = req.body.title;
+        if (req.body.author) toUpdate.author = req.body.author;
+        if (req.body.year) toUpdate.year = req.body.year;
         let result = await toUpdate.save();
         console.log("Sucess " + result)
         res.send(result)
@@ -135,19 +135,19 @@ exports.books_create_Page = function(req, res) {
     }
     };
 
-// //s8
+//s8
     
-// exports.books_update_Page = async function(req, res) {
-//     console.log("update view for item "+req.query.id)
-//     try{
-//     let result = await books.findById(req.query.id)
-//     res.render('booksupdate', { title: 'books Update', toShow: result });
-//     }
-//     catch(err){
-//     res.status(500)
-//     res.send(`{'error': '${err}'}`);
-//     }
-//     };
+exports.books_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await books.findById(req.query.id)
+    res.render('booksupdate', { title: 'books Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`)
+    }
+    };
     
 //     //s9
 
