@@ -124,18 +124,16 @@ exports.books_view_one_Page = async function(req, res) {
     }
     };
 
-// // s7
-
-// exports.books_create_Page = function(req, res) {
-//     console.log("create view")
-//     try{
-//     res.render('bookscreate', { title: 'books Create'});
-//     }
-//     catch(err){
-//     res.status(500)
-//     res.send(`{'error': '${err}'}`);
-//     }
-//     };
+exports.books_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('bookscreate', { title: 'Books Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
 
 // //s8
     

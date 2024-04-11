@@ -7,4 +7,6 @@ router.get('/', books_controlers.books_view_all_Page);
 
 router.get('/detail', books_controlers.books_view_one_Page); 
 
+router.get('/create', books_controlers.books_create_Page);
+
 module.exports = router;
