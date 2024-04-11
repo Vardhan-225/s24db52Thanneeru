@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  - let booksid = toShow.booksid
+  - let Title = toShow.title 
+  - let Author = toShow.author
+  - let Year = toShow.year
+  div
+    div.row
+      div(class='booksAttr mr-3') Books ID is:
+      div #{booksid} 
+    div.row
+      div(class='booksAttr mr-3') Books Number is:
+      div #{Title}
+    div.row
+      div(class='booksAttr mr-3') Books Type is:
+      div #{Author}
+    div.row
+      div(class='booksAttr mr-3') Books Year is:
+      div #{Year}
