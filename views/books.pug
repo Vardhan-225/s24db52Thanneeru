@@ -6,16 +6,17 @@ block content
   .container-fluid
     .row
       - let books = results
-      each book, index in books
+      each book in books
         .col-sm-2
-          div(onclick=`buy(${index})`)
+          div
             p Title: #{book.title}
             p Author: #{book.author}
             p Year: #{book.year}
+            button.btn.btn-primary(onclick=`dispatch("/books/update?id=${book._id}")`) Update
 
   a(href="/") Back to index
 
   script.
-    function buy(index) {
-        alert(`You purchased item ${index}`);
+    function dispatch(path) {
+      window.location.href = path;
     }
